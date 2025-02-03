@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Винтажный фотоальбом</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="album">
+        <h1>Мой Винтажный Фотоальбом</h1>
+        <div class="photo-container">
+            <div class="photo">
+                <img src="{{ url_for('static', filename='photo1.jpg') }}" alt="Фото 1">
+                <p>Описание фото 1</p>
+            </div>
+            <div class="photo">
+                <img src="{{ url_for('static', filename='photo2.jpg') }}" alt="Фото 2">
+                <p>Описание фото 2</p>
+            </div>
+            <div class="photo">
+                <img src="{{ url_for('static', filename='photo3.jpg') }}" alt="Фото 3">
+                <p>Описание фото 3</p>
+            </div>
+            <!-- Добавьте больше фотографий по мере необходимости -->
+        </div>
+    </div>
+</body>
+</html>
