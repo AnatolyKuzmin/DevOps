@@ -97,3 +97,5 @@ Continuous Integration/Continuous Delivery/Deployment - это методоло�
 - Автоматизация процессов
 - Поддержка плагинов
 - Кроссплатформенность
+Запуск ```sudo systemctl start jenkins```
+```sudo systemctl enable jenkins```
