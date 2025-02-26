@@ -57,6 +57,7 @@
 ```docker-compose down``` - удаление контейнеров
 ```docker-compose build``` - сборка образов
 ```docker-compose ps``` - просмотр состояния
+```docker-compose logs``` - показывает логи контейнеров
 
 ## CI/CD
 Continuous Integration/Continuous Delivery/Deployment - это методология, направленная н автоматизацию процессов разработки, тестирования и доставки ПО.
