@@ -112,4 +112,28 @@ Continuous Integration/Continuous Delivery/Deployment - это методоло�
 -***Service*** Абстракиця для доступа к приложению, работающая в кластере  
 -***Namespace*** Виртуальный кластер внутри физического кластера, используемый для изоляции ресурсов  
 
-**Minikube** — это инструмент для локального запуска Kubernetes-кластера на одной машине.
+**Minikube** — это инструмент для локального запуска Kubernetes-кластера на одной машине.  
+Установка ```curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube```  
+Проверка ```minikube version```  
+Запуск ```minikube start```  
+Статус ```minikube status```  
+
+**kubectl** — командная строка для управления Kubernetes  
+Установка ```curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl```  
+Проверка ```kubectl version --client```  
+Посмотреть узлы в кластере ```kubectl get nodes```  
+Простеший pod.yaml  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+```
+Применить конфигурацию  
+```kubectl apply -f pod.yaml```  
