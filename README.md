@@ -137,3 +137,7 @@ spec:
 ```
 Применить конфигурацию  
 ```kubectl apply -f pod.yaml```  
+Просмотрите список Pods  
+```kubectl get pods```  
+Удалите Pod  
+```kubectl delete pod my-pod```  
