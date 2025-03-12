@@ -142,6 +142,7 @@ spec:
 Удалить Pod  
 ```kubectl delete pod my-pod```  
 
+Запуск приложения в Kubernetes  
 Файл deployment.yaml  
 ```
 apiVersion: apps/v1
@@ -163,4 +164,34 @@ spec:
         image: ваш-username/my-python-app:v1.0
         ports:
         - containerPort: 5000
+```  
+Применить конфигурацию  
+```kubectl apply -f deployment.yaml```  
+Просмотреть список Deployments  
+```kubectl get deployments```  
+
+Файл service.yaml  
 ```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer
+```
+Применить конфигурацию  
+```kubectl apply -f service.yaml```  
+Просмотреть список Services  
+```kubectl get services```  
+Открыть приложение в браузере  
+```minikube service my-service```  
+Остановить Minikube  
+```minikube stop```
+Удалить Minikube
+```minikube delete```
