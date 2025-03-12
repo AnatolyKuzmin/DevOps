@@ -137,7 +137,30 @@ spec:
 ```
 Применить конфигурацию  
 ```kubectl apply -f pod.yaml```  
-Просмотрите список Pods  
+Просмотреть список Pods  
 ```kubectl get pods```  
-Удалите Pod  
+Удалить Pod  
 ```kubectl delete pod my-pod```  
+
+Файл deployment.yaml  
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: ваш-username/my-python-app:v1.0
+        ports:
+        - containerPort: 5000
+```
