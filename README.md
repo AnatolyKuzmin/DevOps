@@ -119,7 +119,7 @@ Kubernetes работает по схеме "ведущий-ведомый". ***
 Установка ```curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube```  
 Проверка ```minikube version```  
-Запуск ```minikube start```  
+Запуск ```minikube start``` через docker `minikube start --driver=docker`  
 Статус ```minikube status```  
 
 **kubectl** — командная строка для управления Kubernetes  
@@ -138,12 +138,10 @@ spec:
   - name: my-container
     image: nginx
 ```
-Применить конфигурацию  
-```kubectl apply -f pod.yaml```  
-Просмотреть список Pods  
-```kubectl get pods```  
-Удалить Pod  
-```kubectl delete pod my-pod```  
+
+```kubectl apply -f pod.yaml```  Применить конфигурацию  
+```kubectl get pods```  Просмотреть список Pods  
+```kubectl delete pod my-pod```  Удалить Pod  
 
 Запуск приложения в Kubernetes  
 Файл deployment.yaml  
@@ -168,10 +166,8 @@ spec:
         ports:
         - containerPort: 5000
 ```  
-Применить конфигурацию  
-```kubectl apply -f deployment.yaml```  
-Просмотреть список Deployments  
-```kubectl get deployments```  
+```kubectl apply -f deployment.yaml```  Применить конфигурацию  
+```kubectl get deployments```  Просмотреть список Deployments  
 
 Файл service.yaml  
 ```
@@ -188,13 +184,11 @@ spec:
     targetPort: 5000
   type: LoadBalancer
 ```
-Применить конфигурацию  
-```kubectl apply -f service.yaml```  
-Просмотреть список Services  
-```kubectl get services```  
-Открыть приложение в браузере  
-```minikube service my-service```  
-Остановить Minikube  
-```minikube stop```
-Удалить Minikube
-```minikube delete```
+
+```kubectl apply -f service.yaml```  Применить конфигурацию  
+```kubectl get services```  Просмотреть список Services  
+```minikube service my-service```  Открыть приложение в браузере  
+```minikube dashboard```  Открыть дашборд Kubernetes   
+```minikube ip```  Получить IP кластера   
+```minikube stop```  Остановить Minikube  
+```minikube delete```  Удалить Minikube  
