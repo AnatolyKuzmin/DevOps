@@ -119,9 +119,6 @@ Kubernetes работает по схеме "ведущий-ведомый". ***
 Установка ```curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube```  
 Проверка ```minikube version```  
-Запуск ```minikube start``` через docker `minikube start --driver=docker`  
-Статус ```minikube status```  
-
 **kubectl** — командная строка для управления Kubernetes  
 Установка ```curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl```  
@@ -137,13 +134,9 @@ spec:
   containers:
   - name: my-container
     image: nginx
-```
+```  
+```kubectl apply -f pod.yaml```  Применить конфигурацию, ```kubectl get pods```  Просмотреть список Pods, ```kubectl delete pod my-pod```  Удалить Pod  
 
-```kubectl apply -f pod.yaml```  Применить конфигурацию  
-```kubectl get pods```  Просмотреть список Pods  
-```kubectl delete pod my-pod```  Удалить Pod  
-
-Запуск приложения в Kubernetes  
 Файл deployment.yaml  
 ```
 apiVersion: apps/v1
@@ -166,9 +159,6 @@ spec:
         ports:
         - containerPort: 5000
 ```  
-```kubectl apply -f deployment.yaml```  Применить конфигурацию  
-```kubectl get deployments```  Просмотреть список Deployments  
-
 Файл service.yaml  
 ```
 apiVersion: v1
@@ -183,12 +173,7 @@ spec:
     port: 80
     targetPort: 5000
   type: LoadBalancer
-```
+```   
 
-```kubectl apply -f service.yaml```  Применить конфигурацию  
-```kubectl get services```  Просмотреть список Services  
-```minikube service my-service```  Открыть приложение в браузере  
-```minikube dashboard```  Открыть дашборд Kubernetes   
-```minikube ip```  Получить IP кластера   
-```minikube stop```  Остановить Minikube  
-```minikube delete```  Удалить Minikube  
+Пробный запус: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `minikube status` Проверьте статус кластера, 3. `kubectl apply -f deployment.yaml` Примените конфигурацию, 3.1. `kubectl get deployments` Просмотреть список Deployments  , 4. `kubectl apply -f service.yaml` Примените конфигурацию, 4.1. `kubectl get services` Просмотреть список Services, 4.2. `minikube service my-service` Открыть приложение в браузере ,  5. `minikube ip` Получите IP кластера, 5. `kubectl get svc my-service -o jsonpath='{.spec.ports[0].nodePort}'` Получите порт сервиса 6. `kubectl scale deployment my-deployment --replicas=5` Масштабируйте развертывание, 7. `kubectl get pods` Проверьте количество подов, 8. `minikube dashboard` Открыть дашборд Kubernetes, 9. `minikube stop` Остановите кластер, 10. `minikube delete` Удалите кластер
+
