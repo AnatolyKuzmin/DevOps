@@ -188,3 +188,32 @@ Ingress позволяет:
 
 Основные команды для работы с сервисами Ingress  
 `kubectl get services` просмотр списка сервисов. `kubectl describe service <service_name>` подробная информация о сервисе. `kubectl get ingress` просмотр списка Ingress. `kubectl describe ingress <ingress_name>` подробная информация о Ingress. `kubectl apply -f <file.yaml>` применение конфигурации из файла. `kubectl delete service <service_name>` удаление сервиса. `kubectl delete ingress <ingress_name>` удаление Ingress.
+
+Файл ingress.yaml  
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: my-app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+```   
+
+Установить Ingress-контроллер (например, Nginx Ingress Controller)  
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+```
+
+**Пробный запус**: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `kubectl apply -f service.yaml` Примените конфигурацию, 3. `kubectl apply -f ingress.yaml` Примените конфигурацию, 4. `kubectl get services` Просмотреть список Ingress,  5. `kubectl describe ingress my-ingress` Просмотритm подробную информацию о Ingress, 6. `echo "$(minikube ip) my-app.example.com" | sudo tee -a /etc/hosts` запись в файл /etc/hosts для тестирования, 7. `http://my-app.example.com` Откройтm приложение в браузере, 8. `kubectl delete service my-service` Удалить сервис, `9. kubectl delete ingress my-ingress` Удалить Ingress, 10. `minikube stop` Остановите кластер, 11. `minikube delete` Удалите кластер
