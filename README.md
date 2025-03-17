@@ -177,3 +177,14 @@ spec:
 
 **Пробный запус**: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `minikube status` Проверьте статус кластера, 3. `kubectl apply -f deployment.yaml` Примените конфигурацию, 3.1. `kubectl get deployments` Просмотреть список Deployments  , 4. `kubectl apply -f service.yaml` Примените конфигурацию, 4.1. `kubectl get services` Просмотреть список Services, 4.2. `minikube service my-service` Открыть приложение в браузере ,  5. `minikube ip` Получите IP кластера, 5. `kubectl get svc my-service -o jsonpath='{.spec.ports[0].nodePort}'` Получите порт сервиса 6. `kubectl scale deployment my-deployment --replicas=5` Масштабируйте развертывание, 7. `kubectl get pods` Проверьте количество подов, 8. `minikube dashboard` Открыть дашборд Kubernetes, 9. `minikube stop` Остановите кластер, 10. `minikube delete` Удалите кластер
 
+Сервис (Service) в Kubernetes - это абстракция, котоаря определяет набор Pods и политику доступа к ним. Сервисы обеспечивают стабильный IP-адрес и DNS-имя для набора Pods. Распределяют нагрузку между Pods. Обеспечивают доступ к приложениям внутри и вне кластера.  
+Типы сервисов: **ClusterIP** (по умолчанию) сервис доступен только внутри кластера; **NodePort** сервис доступен через статичный порт на каждом узле кластера; **LoadBalancer** сервис доступен через внешний балансировщик нагрузки; **ExternalName** сервис предоставляет DNS-имя для внешнего ресурса.
+
+***Ingress*** - это объект Kubernetes, который управляет внешним доступом к сервисам в кластере.  
+Ingress позволяет:  
+- Настраивать маршрутизацию HTTP/HTTPS трафика.  
+- Управлять доменными именами и SSL/TLS сертификатами.
+- Обеспечивать доступ к нескольким сервисам через один IP-адрес.
+
+Основные команды для работы с сервисами Ingress  
+`kubectl get services` просмотр списка сервисов. `kubectl describe service <service_name>` подробная информация о сервисе. `kubectl get ingress` просмотр списка Ingress. `kubectl describe ingress <ingress_name>` подробная информация о Ingress. `kubectl apply -f <file.yaml>` применение конфигурации из файла. `kubectl delete service <service_name>` удаление сервиса. `kubectl delete ingress <ingress_name>` удаление Ingress.
