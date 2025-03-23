@@ -216,4 +216,67 @@ spec:
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
-**Пробный запус**: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `kubectl apply -f service.yaml` Примените конфигурацию, 3. `kubectl apply -f ingress.yaml` Примените конфигурацию, 4. `kubectl get services` Просмотреть список Ingress,  5. `kubectl describe ingress my-ingress` Просмотритm подробную информацию о Ingress, 6. `echo "$(minikube ip) my-app.example.com" | sudo tee -a /etc/hosts` запись в файл /etc/hosts для тестирования, 7. `http://my-app.example.com` Откройтm приложение в браузере, 8. `kubectl delete service my-service` Удалить сервис, `9. kubectl delete ingress my-ingress` Удалить Ingress, 10. `minikube stop` Остановите кластер, 11. `minikube delete` Удалите кластер
+**Пробный запус**: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `kubectl apply -f service.yaml` Примените конфигурацию, 3. `kubectl apply -f ingress.yaml` Примените конфигурацию, 4. `kubectl get services` Просмотреть список Ingress,  5. `kubectl describe ingress my-ingress` Просмотритm подробную информацию о Ingress, 6. `echo "$(minikube ip) my-app.example.com" | sudo tee -a /etc/hosts` запись в файл /etc/hosts для тестирования, 7. `http://my-app.example.com` Откройтm приложение в браузере, 8. `kubectl delete service my-service` Удалить сервис, 9. ` kubectl delete ingress my-ingress` Удалить Ingress, 10. `minikube stop` Остановите кластер, 11. `minikube delete` Удалите кластер
+
+**Volumes** - это механизм для хранения данных в Kubernetes. Volumes позволяют: Сохранять данные между запусками Pods; Обмениваться данными между контейнерами внутри Pods; Подключать внешние хранилища данных.  
+Типы Volumes:  
+- emptyDir: временное хранилище, которое существует только пока Pod запущен.  
+- hostPath: монтирует файловую систему узла (ноды) в Pod.  
+- Persistent Volume (PV): постоянное хранилище, которое существует независимо от Pods.  
+- Persistent Volume Claim (PVC): запрос на выделение Persistent Volume.
+
+***Persistent Volume (PV)*** — это ресурс в кластере, представляющий собой физическое хранилище данных. PV может быть:  
+- Статическим: создается администратором кластера.  
+- Динамическим: создается автоматически при запросе PVC.  
+
+Основные команды для работы с Volumes и PVC  
+`kubectl get pv` просмотр списка Persistent Volumes. `kubectl get pvc` просмотр списка Persistent Volume Claims. `kubectl describe pv <pv_name>` подробная информация о Persistent Volume. `kubectl describe pvc <pvc_name>` подробная информация о Persistent Volume Claim.. `kubectl apply -f <file.yaml>` применение конфигурации из файла. `kubectl delete pv <pv_name>` удаление Persistent Volume. `kubectl delete pvc <pvc_name>` удаление Persistent Volume Claim.
+
+Файл pv.yaml  
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data
+```
+Файл pvc.yaml  
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+Файл pod.yaml(PVC в Pod)  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    volumeMounts:
+    - mountPath: "/usr/share/nginx/html"
+      name: my-storage
+  volumes:
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: my-pvc
+```
+
+**Пробный запус**: 1. `minikube start [--driver=docker]/[--driver=virtualbox]` Запустите Minikube, 2. `kubectl apply -f pv.yaml` Примените конфигурацию, 2.1. `kubectl get pv` Просмотрите список Persistent Volumes, 3. `kubectl apply -f pvc.yaml` Примените конфигурацию, 3.1. `kubectl get pvc` Просмотрите список Persistent Volume Claims, 4. `kubectl apply -f pod.yaml` Примените конфигурацию, 4.1. `kubectl get pods` Просмотрите список Pods, 5. `kubectl exec -it my-pod -- /bin/sh` Подключитесь к Pod, 6. `ls /usr/share/nginx/html` Проверьте, что том смонтирован, 7. `echo "Hello, Kubernetes!" > /usr/share/nginx/html/index.html` Создайте файл в томе, 8. `cat /usr/share/nginx/html/index.html` Проверьте содержимое файла, 9. `kubectl delete pod my-pod` Удалите Pod, 9.1. `kubectl delete pvc my-pvc` Удалите PVC, 9.2. `kubectl delete pvc my-pvc` Удалите PV, 10. `minikube stop` Остановите кластер, 11. `minikube delete` Удалите кластер
