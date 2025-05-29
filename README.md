@@ -220,14 +220,17 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 **Volumes** - это механизм для хранения данных в Kubernetes. Volumes позволяют: Сохранять данные между запусками Pods; Обмениваться данными между контейнерами внутри Pods; Подключать внешние хранилища данных.  
 Типы Volumes:  
-- emptyDir: временное хранилище, которое существует только пока Pod запущен.  
-- hostPath: монтирует файловую систему узла (ноды) в Pod.  
-- Persistent Volume (PV): постоянное хранилище, которое существует независимо от Pods.  
-- Persistent Volume Claim (PVC): запрос на выделение Persistent Volume.
+- `emptyDir`: временное хранилище, которое существует только пока Pod запущен.  
+- `hostPath`: монтирует файловую систему узла (ноды) в Pod.  
+- `Persistent Volume (PV)`: постоянное хранилище, которое существует независимо от Pods.  
+- `Persistent Volume Claim (PVC)`: запрос на выделение Persistent Volume.
 
 ***Persistent Volume (PV)*** — это ресурс в кластере, представляющий собой физическое хранилище данных. PV может быть:  
 - Статическим: создается администратором кластера.  
 - Динамическим: создается автоматически при запросе PVC.  
+***Persistent Volume Claim (PVC)*** — это запрос на выделение хранилища. PVC позволяет:  
+- Запрашивать определенный объем хранилища.
+- Указывать тип доступа (ReadWriteOnce, ReadOnlyMany, ReadWriteMany).
 
 Основные команды для работы с Volumes и PVC  
 `kubectl get pv` просмотр списка Persistent Volumes. `kubectl get pvc` просмотр списка Persistent Volume Claims. `kubectl describe pv <pv_name>` подробная информация о Persistent Volume. `kubectl describe pvc <pvc_name>` подробная информация о Persistent Volume Claim.. `kubectl apply -f <file.yaml>` применение конфигурации из файла. `kubectl delete pv <pv_name>` удаление Persistent Volume. `kubectl delete pvc <pvc_name>` удаление Persistent Volume Claim.
